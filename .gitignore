@@ -3,6 +3,8 @@ Listings/
 Objects/
 RTE/
 *.pdf
+*.exe
+*.EXE
 *.uvguix
 *.uvoptx
 *.CAB1GA
