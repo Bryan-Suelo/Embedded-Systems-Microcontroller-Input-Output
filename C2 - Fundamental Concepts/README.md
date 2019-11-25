@@ -2,7 +2,7 @@
 
 ## **Binary to Decimal Conversion**
 
-### **Binary Representation**
+### Binary Representation
 #### **Decimal number**
 * Place is a power of 10.
 * Values are selected from set {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}.
@@ -121,7 +121,7 @@ We will use **fixed-point** numbers when we wish to express values in our comput
 
 The value of the number is the product of the variable integer times the fixed constant. The integer may be signed or unsigned.
 
-### **Embedded Systems**
+### Embedded Systems
 #### **Microcntrollers**
 **Embedded** means hidden inside, so one can't see it.
 
@@ -162,7 +162,7 @@ Embedded systems properties:
 * Low power.
 * Small size and weight.
 
-### **Introduction to Computers**
+### Introduction to Computers
 #### **Computer organization**
 Von Neumann computer:
 * Processor
@@ -223,7 +223,7 @@ Processor - Instruction set architechture
 * Addressing mode (How data is formed?)
 * Memory address
 
-### **CPU Registers**
+### CPU Registers
 
 ### Assembly Language
 #### Syntax
@@ -344,7 +344,7 @@ RRX      Rotate right one bit, with extend.
 
 **Aligned access** is an operation where a word-aligned address is used for a word, dual word, or multiple word access, or where a halfword-aligned address is used for a halfword access. Byte accesses are always aligned. The address of an aligned word access will have its bottom two bits equal to zero.
 
-### **Address Space**
+### Address Space
 #### **Memory Map Layout**
 ROM
 * Code
