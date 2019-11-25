@@ -74,13 +74,13 @@ Energy = Power  * time:
 
 #### Series resistance
 
-![](voltage_current_division_1.png)
+![](voltage_current_division_1.jpg)
 
 > V<sub>1</sub> = (R<sub>1</sub> / R<sub>1</sub> + R<sub>2</sub>) * V<sub>ab</sub>
 
 > V<sub>2</sub> = (R<sub>2</sub> / R<sub>1</sub> + R<sub>2</sub>) * V<sub>ab</sub>
 
-![](voltage_current_division_2.png)
+![](voltage_current_division_2.jpg)
 
 > R<sub>12</sub> = R<sub>1</sub> + R<sub>2</sub>
 
@@ -89,13 +89,13 @@ Energy = Power  * time:
 
 #### Parallel resistance
 
-![](voltage_current_parallel_1.png)
+![](voltage_current_parallel_1.jpg)
 
 > I<sub>1</sub> = (R<sub>1</sub> / R<sub>1</sub> + R<sub>2</sub>) * I
 
 > I<sub>2</sub> = (R<sub>1</sub> / R<sub>1</sub> + R<sub>2</sub>) * I
 
-![](voltage_current_parallel_2.png)
+![](voltage_current_parallel_2.jpg)
 
 > V<sub>ab</sub> = V<sub>1</sub> =  V<sub>2</sub> 
 
@@ -116,12 +116,12 @@ Kirchhoff's **Voltage Law** (**KVL**)
 * As we are going around a circle and pass from + to –, we add that voltage
 * If we pass across an element from – to + we subtract that voltage
 
-![](KVL.png)
+![](KVL.jpg)
 
 Kirchhoff's **Current Law** (**KCL**)
 * The sum of the currents into a node equal the sum of the currents leaving a node
 * Current arrow across a resistor goes from the + voltage to the – voltage
 * This is the same thing as saying current comes out of the battery’s + terminal and into the battery’s – terminal
 
-![](KCL.png)
+![](KCL.jpg)
 
