@@ -1,7 +1,6 @@
 # **Chapter 3 - Electronics**
 
-## **Introduction**
-
+## Introduction
 ### Ohm's Law 
 **Current** (I) 
 * Movement of electrons
@@ -16,11 +15,11 @@
 
 ![](ohms_law.jpg)
 
-> V = C * R
+> **_V = C * R_**
 
-> I = V / R
+> **_I = V / R_**
 
-> R = V / I
+> **_R = V / I_**
 
 ### Circuit Basics Lecture
 **Charge** 
@@ -28,7 +27,7 @@
 * Charge measured at a point or on an object and does not have a direction
 
 **Current**
-* Mmeasured in amps (A)
+* Measured in amps (A)
 * Amps is the same as coulombs/sec
 * Current represents a flow of charge and hence has a direction
 
@@ -52,23 +51,23 @@
 **Power** (P) - Has neither a polarity nor a direction.
 
 Power = Voltage  * Current:
-> P = V * I         
+> **_P = V * I_**
 
 Power = Voltage <sup>2</sup> / Resistance:    
-> P = V<sup>2</sup> / R             
+> **_P = V<sup>2</sup> / R_**             
 
 Power = Current <sup>2</sup> * Resistance:
->P = I<sup>2</sup> * R      
+>**_P = I<sup>2</sup> * R_**      
 
 **Energy** (E in joules) - Has neither a polarity nor a direction
 
 Energy = Voltage  * Current  * time:
-> E = V * I * t
+> **_E = V * I * t_**
 
 Energy = Power  * time:
-> E = P * t
+> **_E = P * t_**
 
-## **Electronic Cirucuits**
+## Electronic Circuits
 
 ### Voltage and Current Division
 
@@ -76,15 +75,15 @@ Energy = Power  * time:
 
 ![](voltage_current_division_1.jpg)
 
-> V<sub>1</sub> = (R<sub>1</sub> / R<sub>1</sub> + R<sub>2</sub>) * V<sub>ab</sub>
+> **_V<sub>1</sub> = (R<sub>1</sub> / R<sub>1</sub> + R<sub>2</sub>) * V<sub>ab</sub>_**
 
-> V<sub>2</sub> = (R<sub>2</sub> / R<sub>1</sub> + R<sub>2</sub>) * V<sub>ab</sub>
+> **_V<sub>2</sub> = (R<sub>2</sub> / R<sub>1</sub> + R<sub>2</sub>) * V<sub>ab</sub>_**
 
 ![](voltage_current_division_2.jpg)
 
-> R<sub>12</sub> = R<sub>1</sub> + R<sub>2</sub>
+> **_R<sub>12</sub> = R<sub>1</sub> + R<sub>2</sub>_**
 
-> V<sub>ab</sub> = V<sub>1</sub> + V<sub>2</sub>
+> **_V<sub>ab</sub> = V<sub>1</sub> + V<sub>2</sub>_**
 
 
 #### Parallel resistance
