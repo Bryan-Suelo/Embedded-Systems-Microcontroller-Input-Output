@@ -1,18 +1,18 @@
 # **Chapter 2 - Fundamental Concepts**
 
-## **Binary to Decimal Conversion**
+## **Binary Number and Systems**
 
 ### Binary Representation
-#### **Decimal number**
+#### Decimal number
 * Place is a power of 10.
 * Values are selected from set {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}.
 * A decimal number is simply a combination of its digits multiplied by powers of 10.
-#### **Binary number**
+#### Binary number
 * Place is a power of 2.
 * The value is selected from the set {0, 1}.
 * A binary number is simply a combination of its digits multiplied by powers of 2. 
 * The powers of 2 are 1, 2, 4, 8, 16, ...
-##### Example
+#### Example
 * Decimal number
 
 > Convert: (4723)<sub>10</sub>
@@ -25,19 +25,19 @@
 
 >(1 * 2^<sup>3</sup>) + ( * 2^<sup>2</sup>) + (0 * 2^<sup>1</sup>) + (1 * 2^<sup>0</sup>) = 8 + 4 + 0 + 1 = 13
 
-#### **Binary to decimal conversion**
+### Binary to decimal conversion
 * An 8-bit number is called a **byte**
 * A 16-bit number is called a **halfword**
 * A 32-bit number is called a **word**
 
-#### **Binary to decimal converter**
+#### Binary to decimal converter
 calculate a value by multipling each coefficient by its placeholder values and summing all of them together.
 
 >Convert: (1101)<sub>2</sub>
 
 >(1 *2^<sup>7</sup>) + (0 *2^<sup>6</sup>) + (1 *2^<sup>5</sup>) + (0 *2^<sup>4</sup>) + (0 *2^<sup>3</sup>) + (1 *2^<sup>2</sup>) + (0 *2^<sup>1</sup>) + (0 *2^<sup>0</sup>) = 128 + 0 + 32 + 0 + 0 + 4 + 0 + 0 = 164
 
-#### **Decimal to binary converter**
+#### Decimal to binary converter
 Using consecutive divisions:
 1. Start by dividing the decimal number by 2
 2. Iteratively divide the result (the quotient) by 2 until the answer is 0
@@ -52,7 +52,7 @@ Using consecutive divisions:
 
 > Binary equivalent 10011010
 
-#### **Hexadecimal notation**
+### Hexadecimal Notation 
 * Use base 16
 * Values are selected from set {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F}
 
@@ -64,10 +64,10 @@ Uses of Hex numbers:
 * Addresses
 * Contents of registers or memory
 
-#### **Hexadecimal to binary conversion**
+### Hexadecimal to binary conversion
 **Nibble**: Is defined as 4 binary bits or one hexadecimal digit.
 
-##### Convert binary to hexadecimal
+#### Convert binary to hexadecimal
 1. Divide the binary number into rigth justified nibbles.
 2. Convert each nibble into its corresponding hexadecimal digit.
 
@@ -75,7 +75,7 @@ Uses of Hex numbers:
 
 > Hexadecimal: 0x36CD
 
-##### Convert binary to hexadecimal
+#### Convert binary to hexadecimal
 1. Convert each hexadecimal digit into its corresponding 4-digit binary nibble.
 2. Combine the nibbles into a single binary number.
 
@@ -83,8 +83,8 @@ Uses of Hex numbers:
 
 > Binary: 1100 0101 0110 1010
 
-#### **Signed vs Unsigned numbers**
-##### Signed
+### Signed vs Unsigned numbers
+#### Signed
 * Range between -128 to 127
 * Most significant bit is called **sign** bit
 * Value 0/1 represent sign
@@ -95,11 +95,11 @@ Uses of Hex numbers:
 
 > Postive --> (01000110)<sub>2</sub> = 64 + 4+ 2 = 70
 
-##### Unsigned
+#### Unsigned
 * Range between 0 to 255
 > (10001101) --> <sub>2</sub> = 128 + 8 + 4 + 1 = 141
 
-#### **Precision and Bytes**
+### Precision and Bytes
 **Precision** is the number of distinct or different values. 
 * We express precision in alternatives, bytes, or binary bits.
 
@@ -107,28 +107,27 @@ Uses of Hex numbers:
 * An 8-bit digital to analog converter (DAC) can generate 256 different analog outputs. 
 * An 8-bit analog to digital converter (ADC) can measure 256 different analog inputs.
 
-A **byte** contains 8 bits
-* where each bit is binary and has the value 1 or 0.
+A **byte** contains 8 bits where each bit is binary and has the value 1 or 0.
 
-#### **Words and halfwords**
+### Words and halfwords
 **Word** contains 32 bits.
 * There are 2<sup>32</sup> different unsigned 32-bit numbers. The smallest unsigned 32-bit number is 0 and the largest is 2<sup>32</sup>-1. This range is 0 to about 4 billion.
 
 A **halfword** or **double byte** contains 16 bits.
 
-#### **Fixed-Point numbers**
+### Fixed-Point numbers
 We will use **fixed-point** numbers when we wish to express values in our computer that have noninteger values. A fixed-point number contains two parts. The first part is a variable **integer**, called I. The variable integer will be stored on the computer. The second part of a fixed-point number is a fixed constant, called the **resolution** Δ.
 
 The value of the number is the product of the variable integer times the fixed constant. The integer may be signed or unsigned.
 
-### Embedded Systems
-#### **Microcntrollers**
+## Embedded Systems
+### Microcontrollers
 **Embedded** means hidden inside, so one can't see it.
 
 **System** means multiple components interfaced together for a common purpose. Systems have structure, behavior, and interconnectivity.
 
 Embedded system components:
-* Wwe use **ROM** for storing the software and fixed constant data
+* We use **ROM** for storing the software and fixed constant data
 * **RAM** is used for storing temporary information.  
 * **Flash EEPROM** is an electrically-erasable programmable ROM, because the information can easily be erased and reprogrammed. 
 
@@ -138,7 +137,7 @@ Microcontrollers incorporates:
 * ROM
 * I/O ports
 
-#### **Properties of Embedded Systems**
+### Properties of Embedded Systems
 A **microcomputer** is a small computer that includes a processor, memory and I/O devices.
 
 An **Interface** is defined as the hardware and software that combine to allow the computer to communicate with the external hardware.
@@ -162,8 +161,8 @@ Embedded systems properties:
 * Low power.
 * Small size and weight.
 
-### Introduction to Computers
-#### **Computer organization**
+## Introduction to Computers
+### Computer organization
 Von Neumann computer:
 * Processor
 * RAM
@@ -175,7 +174,7 @@ Harvad computer:
 * ROM
 * ICode
 
-#### Architecture
+### Architecture
 **Software** is an ordered sequence of very specific instructions that are stored in memory, defining exactly what and when certain tasks are to be performed. It is a set of instructions, stored in memory, that are executed in a complicated but well-defined manner.
 
 **Processor** executes the software by retrieving and interpreting these instructions one at a time.
@@ -190,15 +189,15 @@ The computer can store information in **RAM** by writing to it, or it can retrie
 
 **ROM**s are nonvolatile; meaning if power is interrupted and restored the information in the ROM is retained. Some ROMs are programmed at the factory and can never be changed. A Programmable ROM (PROM) can be erased and reprogrammed by the user, but the erase/program sequence is typically 10000 times slower than the time to write data into a RAM.
 
-#### **ARM Cortex M4**
+### ARM Cortex M4
 * It is a Harvard architecture because it has separate data and instruction buses.
 * Has separate data and instruction buses.
 * Instructions are fetched from flash ROM using the ICode bus.
 * Data are exchanged with memory and I/O via the system bus interface.
 * The nested vectored interrupt controller (NVIC) manages **interrupts**, which are hardware-triggered software functions.
 
-### **I/O ports**
-#### Ports on the TM4C123
+## I/O ports
+### Ports on the TM4C123
 [Data sheet for the TM4C123 microcontroller](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/fa65824471e6a00ada3317b79943c1ae/asset-v1:UTAustinX+UT.6.10x+3T2019+type@asset+block/tm4c123gh6pm.pdf)
 * Chapter 10 General-Purpose Input/Outputs (GPIOS)
 * Chapter 22 Pin DIagram
@@ -215,7 +214,8 @@ I/O interfaces classification:
 * **Analog** - data are encoded as an electrical voltage, current, or power
 * **Time** - data are encoded as a period, frequency, pulse width, or phase shift
 
-#### Registers
+## CPU Registers 
+### Registers
 Processor - Instruction set architechture
 * Instruccionts supported
 * Data types
@@ -223,10 +223,8 @@ Processor - Instruction set architechture
 * Addressing mode (How data is formed?)
 * Memory address
 
-### CPU Registers
-
-### Assembly Language
-#### Syntax
+## Assembly Language
+### Syntax
 Assembly language instructions have four fields separated by spaces or tabs.
  
  * **Label field** is optional and starts in the first column and is used to identify the position in memory of the current instruction. You must choose a unique name for each label. 
@@ -265,7 +263,7 @@ When we **build** a project all files are assembled or compiled then linked toge
 
 The **linker** decides exactly where in memory everything will be.
 
-#### Adressing modes and operands
+### Adressing modes and operands
 **Addressing mode** - is the format the instruction uses to specify the memory location to read or write data. The addressing mode is associated more specifically with the operands, and a single instruction could exercise multiple addressing modes for each of the operands. All instructions begin by fetching the machine instruction (op code and operand) pointed to by the PC.
 ```assembly
 ADD R1, R2 ; R1 + R2 
@@ -344,17 +342,18 @@ RRX      Rotate right one bit, with extend.
 
 **Aligned access** is an operation where a word-aligned address is used for a word, dual word, or multiple word access, or where a halfword-aligned address is used for a halfword access. Byte accesses are always aligned. The address of an aligned word access will have its bottom two bits equal to zero.
 
-### Address Space
-#### **Memory Map Layout**
+## Address Space
+### Memory Map Layout
 ROM
 * Code
-* Constatns
+* Constants
+
 Ram
 * Data
 * Variables
 * Stack
 
-#### Memory map of the TM4C123
+### Memory map of the TM4C123
 [Data sheet for the TM4C123 microcontroller](https://prod-edxapp.edx-cdn.org/assets/courseware/v1/fa65824471e6a00ada3317b79943c1ae/asset-v1:UTAustinX+UT.6.10x+3T2019+type@asset+block/tm4c123gh6pm.pdf)
 * Chapter 1.2 TM4C123GH6PM Microcontroller Overview
 
@@ -365,7 +364,8 @@ Task that can occur in parallel
 * **PPB** - Read/write data from internal peripherals like the NVIC
 * **AHB** - Read/write data from high-speed  I/O and parallel ports (M4 only)
 
-#### **Integrated Development Environment - Keil**
+## Software Development 
+### Integrated Development Environment - Keil
 * ARM Keil™ uVision®
 * Texas Instruments Code Composer Studio™ (CCStudio)
 
