@@ -35,6 +35,7 @@ N type transistor
 * A transistor will be off (sitch open) if its gate is low
 
 ![](NOT_Gate.jpg)
+
 Implementation of a NOT gate
 
 ### Logic and Boolean Operations
@@ -55,8 +56,8 @@ logic operations bit by bit.
 |               | AND (&)        | AND (&&)|
 | A = 01100111  |  A&B =         |  A&&B = |
 | B = 11110000  |  01100000      |   1     |
-|               | OR (|)         | OR (||) |
-| A = 01100111  |  A|B =         |  A||B = |
+|               | OR (+)         | OR (+)  |
+| A = 01100111  |  A+B =         |  A++B = |
 | B = 11110000  |  11110111      |   1     |
 
 NAND - Operation followed by an AND followed by a NOT
