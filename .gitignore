@@ -8,3 +8,14 @@ RTE/
 *.uvguix
 *.uvoptx
 *.CAB1GA
+*.crf
+*.d
+*.o
+*.s
+*.axf
+*.htm
+*.lnp
+*.map
+*.dep
+*.bak
+*.lst
