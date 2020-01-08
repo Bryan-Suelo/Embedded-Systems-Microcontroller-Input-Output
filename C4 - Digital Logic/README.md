@@ -34,7 +34,7 @@ N type transistor
 * Switch will be closed (active) if its gate is high
 * A transistor will be off (sitch open) if its gate is low
 
-![](NOT_Gate.JPG)
+![](NOT_Gate.jpg)
 
 Implementation of a NOT gate
 
