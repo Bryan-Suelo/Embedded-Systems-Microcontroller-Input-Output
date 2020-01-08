@@ -1,6 +1,7 @@
 #include "tm4c1294ncpdt.h"
 #include "stdbool.h"
 #include "stdint.h"
+#include "stdio.h"
 
 // Defining PortF Initializers
 #define GPIO_PORTF_DATA_R       (*((volatile unsigned long *)0x4005D044))
@@ -35,38 +36,60 @@ int main(void)
     PortF_Init();
     PortJ_Init();
     PortN_Init();
-
+		//int i;
     while(1)
     {
-        SW1 = GPIO_PORTJ_DATA_R&0x01;       // read PJ1 into SW1
-        SW2 = GPIO_PORTJ_DATA_R&0x02;        // read PJ0 into SW2
+        SW1 = GPIO_PORTJ_DATA_R&0x01;       // read PJ0 into SW1
+        SW2 = GPIO_PORTJ_DATA_R&0x02;        // read PJ1 into SW2
         SW3 = GPIO_PORTJ_DATA_R&0x03;
 
-            if (SW2 == 0x02)
+            /*if (SW2 == 0x02)
             {
-              GPIO_PORTF_DATA_R = 0x10;  
-							//GPIO_PORTN_DATA_R = 0x02;    // Enciede PN0 D2
+              //GPIO_PORTF_DATA_R = 0x00;  
+							GPIO_PORTN_DATA_R = 0x01;    // Enciede PN0 D2
                 
             }
             //Si se presiona el botón 2
             if (SW1 == 0x01)
             {
-                //GPIO_PORTN_DATA_R = 0x01;    // Enciende PN1
-                GPIO_PORTF_DATA_R = 0x01;
+              GPIO_PORTF_DATA_R = 0x10;  
+							//GPIO_PORTN_DATA_R = 0x00;    
+                
             }
         //Si se presiona el botón  1 y 2
             if (SW3 == 0x00)
             {
-                GPIO_PORTF_DATA_R = 0x00;    // apaga los 4 leds
-                //GPIO_PORTN_DATA_R = 0x00;
+                GPIO_PORTF_DATA_R = 0x01;    // apaga los 4 leds
+                GPIO_PORTN_DATA_R = 0x02;
             }
         //Sino se presiona ningún botón
             if (SW3 == 0x03)
             {
                 GPIO_PORTF_DATA_R = 0x11;    // enciende los 2 leds del puerto N
-                //GPIO_PORTN_DATA_R = 0x00;
-			}
-	}
+                GPIO_PORTN_DATA_R = 0x03;
+						}*/
+
+				if (SW3 == 0X03) // SW1 and SW2 are not pressed
+				{
+					GPIO_PORTF_DATA_R = 0x00;		// Turn on D3 --> PF4			
+					GPIO_PORTN_DATA_R = 0x02;		// Turn on D1 and D0 --> PN1 and PN0							
+				}
+				if (SW3 == 0x00) // SW1 and SW2 are pressed
+				{
+					GPIO_PORTF_DATA_R = 0x10;		// Turn off Port F			
+					GPIO_PORTN_DATA_R = 0x03;		// Turn on D1 --> PN1	
+				}						
+				if (SW1 == 0x00) // SW1 (PJ0) is pressed
+				{
+						GPIO_PORTF_DATA_R = 0x00;		// Turn off Port F			
+						GPIO_PORTN_DATA_R = 0x01;		// Turn on D2 --> PN0								
+				}
+				if (SW2 == 0x00)	// SW2 (PJ1) is pressed
+				{
+						GPIO_PORTF_DATA_R = 0x10;		// Turn on D3 --> PF4			
+						GPIO_PORTN_DATA_R = 0x00;		// Turn off Port N
+				}
+		}
 }
 
 
