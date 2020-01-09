@@ -12,7 +12,7 @@ I/O pins on microcontrollers have a wide range of alternative functions:
 It can be used for serial communication between computers. It is asynchronous and allows for simultaneous communication in both directions. 
 
 * **SSI** (Synchronous serial interface)
-It is alternately called serial peripheral interface (**SPI**). It is used to interface medium-speed I/O devices. In this book, we will use it to interface a graphics display. We could use SSI to interface a digital to analog converter (DAC) or a secure digital card (SDC).
+It is alternately called serial peripheral interface (**SPI**). It is used to interface medium-speed I/O devices. We could use SSI to interface a digital to analog converter (DAC) or a secure digital card (SDC).
 
 * **I<sup>2</sup>C** (Inter-integrated circuit)
 Simple I/O bus that we will use to interface low speed peripheral devices. Input capture and output compare will be used to create periodic interrupts and measure period, pulse width, phase, and frequency.
@@ -22,10 +22,11 @@ Simple I/O bus that we will use to interface low speed peripheral devices. Input
 * **PWM** - (Pulse width modulation)
 Its outputs will be used to apply variable power to motor interfaces. In a typical motor controller, input capture measures rotational speed, and PWM controls power. A PWM output can also be used to create a DAC.
 
-* **ADC** - Analog to digital converter, measure analog signals.
-will be used to measure the amplitude of analog signals and will be important in data acquisition systems. The analog comparator takes two analog inputs and produces a digital output depending on which analog input is greater.
+* **ADC** - Analog to digital converter
+will be used to measure the amplitude of analog signals and will be important in data acquisition systems. 
 
 * **Analog Comparator** - Compare two analog signals
+Takes two analog inputs and produces a digital output depending on which analog input is greater.
 
 * **QEI** - Quadrature encoder interface
 Can be used to interface a brushless DC motor.
@@ -41,3 +42,8 @@ It creates a high-speed communication channel between microcontrollers and is co
 
 * **Mixed-signal** refers to a system with both analog and digital components. Notice how many I/O ports perform this analog-digital bridge: ADC, DAC, analog comparator, PWM, QEI, Input capture, and output compare.
 
+## Tiva TM4C123 LaunchPad I/O Pins 
+### Overview of Ports Lecture
+An **input port** has the direction register bit at 0, meaning the software can only read the values on the **input pin**. An **output port** has the direction register bit at 1, meaning the software can read and write to the pin.
+
+![](IOPort.jpg)
