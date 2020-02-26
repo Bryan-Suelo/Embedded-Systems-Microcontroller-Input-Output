@@ -102,3 +102,102 @@ To initialize an I/O port for general use, we perform eight steps.
 
 
 It is necessary to add a short delay between activating the clock and accessing the port registers. The direction register specifies bit for bit whether the corresponding pins are input or output.
+
+### Writing friendly code
+Only affect the bits in which we are interested and leave the remaining bits unchanged. Writely friendly code makes it easier to combine code written at different times for different purposes.
+
+The typical manner in which we change just some bits is:
+1. Read the value in the I/O register into a variable
+2. Mask or clear bits we wish to change to zero in the variable
+3. Select or set bits we wish to change to one in the variable
+4. Write the variable back to the I/O register
+
+Example
+```c
+in = GPIO_PORTB_DATA_R; // read value
+in &= ~0x08;            // clear bit 3
+in |= 0x20;             // set bit 5
+GPIO_PORTB_DATA_R = in; // update port
+```
+
+There are two ways on TM4C microcontrollers to access individual port bits. 
+* A read-modify-write software to change just one pin. 
+```c
+  LDR R1, = GPIO_PORTA_DATA_R
+  LDR R0, [R1]      ; previous
+  ORR R0, R0, #0x80 ; set bit 1
+  STR R0, [R1]
+```
+```c
+// make PA7 high
+GPIO_PORTA_DATA_R |= 0x80;
+```
+* A read-or-write sequence can be used to set bits.
+```c
+  LDR R1, =GPIO_PORTA_DATA_R
+  LDR R0, [R1]      ; previous
+  BIC R0, R0, #0x80 ; clear bit 1
+  STR R0, [R1]
+```
+```
+// make PA7 low
+GPIO_PORTA_DATA_R &= ~0x80;
+```
+
+### Bit specific addressing
+Bit-specific addressing allows you to read/write access 1 or more bits of a data port without affecting the other bits of the port. This bit-specific addressing doesn’t work for all the I/O registers, just the parallel port data registers. 
+Basically, if we are interested in bit b, the constant is 4*<sup>2</sup>. There are 256 possible bit combinations we might be interested in accessing, from all of them to none of them. Each possible bit combination has a separate address for accessing that combination. For each bit we are interested in, we add up the corresponding constants and then add that sum to the **base address** for the port. 
+
+| Base address  | Base address  | Address offsets  | Constant  |
+| ------------- |:-------------:| -----------------| :--------:|
+| Port A        | 0x40004000    | Bit 7            | 0x200     |
+| Port B        | 0x40005000    | Bit 6            | 0x100     |
+| Port C        | 0x40006000    | Bit 5            | 0x080     |
+| Port D        | 0x40007000    | Bit 4            | 0x040     |
+| Port E        | 0x40024000    | Bit 3            | 0x020     |
+| Port F        | 0x40025000    | Bit 2            | 0x010     |
+|               |               | Bit 1            | 0x008     |
+|               |               | Bit 0            | 0x004     |
+
+For each bit we are interested in, we add up the corresponding **constants** and then add that sum to the **base address** for the port. 
+
+For example, the base address for Port A is 0x4000.4000. If we want to read and write to all 8 bits of this port, the sum of the base address and the constants yields the 0x4000.43FC address. 
+In other words, read and write operations to GPIO_PORTA_DATA_R will access all 8 bits of Port A. If we are interested in just one bit of Port A, we add the offset from Table 6.3 to 0x4000.4000, and we can define these in C.
+
+```C
+#define PA7   (*((volatile unsigned long *)0x40004200))
+#define PA6   (*((volatile unsigned long *)0x40004100))
+#define PA5   (*((volatile unsigned long *)0x40004080))
+#define PA4   (*((volatile unsigned long *)0x40004040))
+#define PA3   (*((volatile unsigned long *)0x40004020))
+#define PA2   (*((volatile unsigned long *)0x40004010))
+#define PA1   (*((volatile unsigned long *)0x40004008))
+#define PA0   (*((volatile unsigned long *)0x40004004))
+```
+
+If we are interested in more than one bit of a port , we add the corresponding offsets from Table 6.3 to the base address of the port. For example to access just bits 6 and 7 of Port A we can define a constant in C like this
+
+```#define PA76   (*((volatile unsigned long *)0x40004300))```
+
+Now, a simple write operation can be used to set PA76. The following code is friendly because it does not modify the other 6 bits of Port A.
+
+```PA76 = 0x80;       // make PA7 high and PA6 low```
+
+## Debugging Monitor using a LED
+### Intrusiveness and Heartbeat
+**Intrusiveness** is defined as the degree to which the debugging code itself alters the performance of the system being tested.
+
+A LED attached to an output port of the microcontroller is an example of a BOOLEAN monitor. You can place LEDs on unused output pins. Software toggles these LEDs to let you know where and when your program is running.
+
+A **heartbeat** is a pulsing output that is not required for the correct operation of the system, but it is useful to see while the program is running.
+
+**Minimally intrusive** means the presence of the debugging code has a small but inconsequential effect on the code being tested. More specifically, the time to execute the debugging code is small compared to the time interval between executes of the code. It is important because we do not want take an operational system and cause it to fail just because we tried to debug it.
+
+## Hardware Debugging tools
+### Logic Analizer
+ A **logic analyzer** allows the experimenter to observe numerous digital signals at various points in time and thus make decisions based upon such observations. 
+ As with any debugging process, it is necessary to select which information to observe out of a vast set of possibilities. Any digital signal in the system can be connected to the logic analyzer.
+
+ One problem with logic analyzers is the massive amount of information that it generates. With logic analyzers we must strategically select which signals in the digital interfaces to observe and when to observe them. In particular, the triggering mechanism can be used to capture data at appropriate times eliminating the need to sift through volumes of output.
+
+ An **oscilloscope** can be used to capture voltage versus time data. You can adjust the voltage range and time scale. The oscilloscope trigger is how and when the data will be capture. In normal mode, we measure patterns that repeat over and over, and we use the trigger (e.g., rising edge of channel 1) to freeze the image. In single shot mode, the display is initially blank, and once the trigger occurs, one trace is captured and display.
