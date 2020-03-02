@@ -149,3 +149,93 @@ In order to evaluate our software quality, we need performance measures.
 **Static efficiency** is the number of memory bytes required. Since most embedded computer systems have both RAM and ROM, we specify memory requirement in global variables, stack space, fixed constants and program. The global variables plus the stack must fit into the available RAM.
 
 Qualitative performance measurements include those parameters to which we cannot assign a direct numerical value.
+
+### Software Maintenance
+We should be mortified when other programmers find bugs in our code. There are a few steps we can take to facilitate this important aspect of software design.
+
+**Test it now.** Developers should completely test each module individually, before combining them into a larger system. We should not add new features before we are convinced the existing system is bug-free. In this way, we start with a working system, add features, and then debug this system until it is working again.
+This incremental approach makes it easier to track progress.
+
+**Plan for testing.** How to test each module should be considered at the start of a project. Our testing and the client's usage go hand in hand. In particular, how we test the module will help the client understand the context and limitations of how our component is to be used. 
+
+**Get help.** Use whatever features are available for organization and debugging. Pay attention to warnings, because they often point to misunderstandings about data or functions.
+
+**Deal with the complexity.** A complex system can be created out of simple components. A real creative effort is required to orchestrate simple building blocks into larger modules, which themselves are grouped to create even larger systems. 
+Use your creativity to break a complex problem into simple components, rather than developing complex solutions to simple problems.
+
+## Functions, procedures, methods and subroutines
+### Call by value vs Call by reference
+A program module that performs a well-defined task can be packaged up and defined as a single entity. A subroutine is the **assembly language** version of a function. Consequently, subroutines may or may not have **input** or **output** parameters.
+The syntax for an assembly subroutine begins with a label, which will be the name of the subroutine and ends with a return instruction.
+
+Formally, there are two components to a subroutine: definition and invocation.
+
+The subroutine **definition** specifies the task to be performed. In other words, it defines what will happen when executed. The definition of a subroutine includes a formal specification its input parameters and output parameters. In well-written software, the task performed by a subroutine will be well-defined and logically complete. 
+
+The subroutine **invocation** is inserted to the software system at places when and where the task should be performed. We define software that invokes the subroutine as “the calling program” because it calls the subroutine.
+There are **three** parts to a subroutine invocation: 
+* pass input parameters
+* subroutine call
+* accept output parameters. 
+
+If there are input parameters, the calling program must establish the values for input parameters before it calls the subroutine.
+
+A ```BL``` instruction is used to call the subroutine.
+If the register contains a value, the parameter is classified as **call by value**. If the register contains an address, which points to the value, then the parameter is classified as **call by reference**.
+
+### Coupling
+Defined as the influence one module’s behavior has on another module. In order to make modules more independent we strive to minimize coupling.
+
+A quantitative measure of coupling is the number of bytes per second (bandwidth) that are transferred from one module to another. On the other hand, information stored in public global variables can be quite difficult to track.
+
+Public global variables cause coupling between modules that complicate the debugging process because now the modules may not be able to be separately tested. On the other hand, we must use global variables to pass information into and out of an interrupt service routine and from one call to an interrupt service routine to the next call. When passing data into or out of an interrupt service routine, we group the functions that access the global into the same module, thereby making the global variable private.
+
+On many microcontrollers it is inefficient to implement local variables on the stack. Consequently, many programmers opt for faster approach of global variables. 
+Again, if we restrict access to these globals to function in the same module, the global becomes private. It is poor design to pass data between modules through public global variables; it is better to use a well-defined abstract technique like a FIFO queue.
+
+The following three objectives when dividing a software project into subtasks, it is really only the first one that matters
+
+• Make the software project easier to understand
+• Increase the number of modules
+• Decrease the interdependency (minimize bandwidth between modules).
+
+## Making Desicions
+### Conditional if-then Statements
+Decision making is an important aspect of software programming.
+
+#### Conditional IF-THEN Statements
+Two values are compared and certain blocks of program are executed or skipped depending on the results of the comparison.
+In assembly language it takes three steps to perform a comparison:
+
+1.- Begin by reading the first value into a register. If the second value is not a constant, it must be read into a register, too.
+2.- Compare the first value with the second value. You can use either a subtract instruction with the ```S (SUBS)``` or a compare instruction ```(CMP CMN)```. The ```CMP CMN SUBS``` instructions set the condition code bits.   
+3.- Conditional branch.
+
+##### Examples
+###### Example 1 
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+  LDR R2, =G     ; R2 is the address of G            unsigned long G, H;
+  LDR R0, [R2]   ; R0 = G                            if (G == H)
+  LDR R3, =H     ; R3 is the address of H            {
+  LDR R1, [R3]   ; R1 = H                               GEqualH();
+  CMP R0, R1     ; is G == H ?                       } 
+  BNE next1      ; if not equal, skip
+  BL  GEqualH    ; G == H
+next1
+```
+
+###### Example 2
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+  LDR R2, =G     ; R2 is the address of G            unsigned long G, H;
+  LDR R0, [R2]   ; R0 = G                            if (G == H)
+  LDR R3, =H     ; R3 is the address of H            {
+  LDR R1, [R3]   ; R1 = H                               GNotEqualH();
+  CMP R0, R1     ; is G == H ?                       } 
+  BNE next1      ; if not equal, skip
+  BL  GEqualH    ; G == H
+next1
+```
