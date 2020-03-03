@@ -207,9 +207,9 @@ Decision making is an important aspect of software programming.
 Two values are compared and certain blocks of program are executed or skipped depending on the results of the comparison.
 In assembly language it takes three steps to perform a comparison:
 
-1.- Begin by reading the first value into a register. If the second value is not a constant, it must be read into a register, too.
-2.- Compare the first value with the second value. You can use either a subtract instruction with the ```S (SUBS)``` or a compare instruction ```(CMP CMN)```. The ```CMP CMN SUBS``` instructions set the condition code bits.   
-3.- Conditional branch.
+* Begin by reading the first value into a register. If the second value is not a constant, it must be read into a register, too.
+* Compare the first value with the second value. You can use either a subtract instruction with the ```S (SUBS)``` or a compare instruction ```(CMP CMN)```. The ```CMP CMN SUBS``` instructions set the condition code bits.   
+* Conditional branch.
 
 ##### Examples
 ###### Example 1 
@@ -234,8 +234,201 @@ next1
   LDR R0, [R2]   ; R0 = G                            if (G == H)
   LDR R3, =H     ; R3 is the address of H            {
   LDR R1, [R3]   ; R1 = H                               GNotEqualH();
-  CMP R0, R1     ; is G == H ?                       } 
-  BNE next1      ; if not equal, skip
-  BL  GEqualH    ; G == H
+  CMP R0, R1     ; is G != H ?                       } 
+  BEQ next2      ; if equal, skip
+  BL  GEqualH    ; G != H
+next2
+```
+
+When comparing unsigned values, the instructions ```BHI BLO BHS``` and ```BLS``` should follow the subtraction or comparison instruction.
+
+When comparing signed values, the instructions ```BGT BLT BGE``` and ```BLE``` should follow the subtraction or comparison instruction.
+
+###### Example 3
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+  LDR R2, =G     ; R2 is the address of G            unsigned long G, H;
+  LDR R0, [R2]   ; R0 = G                            if (G > H)
+  LDR R3, =H     ; R3 is the address of H            {
+  LDR R1, [R3]   ; R1 = H                               GGreaterH();
+  CMP R0, R1     ; is G > H ?                       } 
+  BLS next1      ; if G <= H, skip
+  BL  GGreaterH  ; G > H
 next1
 ```
+
+###### Example 4
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+  LDR R2, =G       ; R2 is the address of G            unsigned long G, H;
+  LDR R0, [R2]     ; R0 = G                            if (G >= H)
+  LDR R3, =H       ; R3 is the address of H            {
+  LDR R1, [R3]     ; R1 = H                               GGreaterEqH();
+  CMP R0, R1       ; is G >= H ?                       } 
+  BLO next2        ; if G < H, skip
+  BL  GGreaterEqH  ; G >= H
+next2
+```
+
+###### Example 5
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+  LDR R2, =G     ; R2 is the address of G            unsigned long G, H;
+  LDR R0, [R2]   ; R0 = G                            if (G > H)
+  LDR R3, =H     ; R3 is the address of H            {
+  LDR R1, [R3]   ; R1 = H                               GLessH();
+  CMP R0, R1     ; is G < H ?                       } 
+  BHS next3      ; if G >= H, skip
+  BL  GLessH     ; G < H
+next3
+```
+
+###### Example 6
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+  LDR R2, =G     ; R2 is the address of G            unsigned long G, H;
+  LDR R0, [R2]   ; R0 = G                            if (G > H)
+  LDR R3, =H     ; R3 is the address of H            {
+  LDR R1, [R3]   ; R1 = H                               GGreaterH();
+  CMP R0, R1     ; is G <= H ?                       } 
+  BHI next4      ; if G > H, skip
+  BL  GLessEqH    ; G <= H
+next4
+```
+
+To convert these examples to **16 bits**:
+* Use the ```LDRH R0, [R2]``` instruction instead of the ```LDR R0, [R2]``` instruction. 
+* Use the ```LDRH R1, [R3]``` instruction instead of the ```LDR R1, [R3]``` instruction. 
+
+To convert these examples to **8 bits**:
+* Use the ```LDRB R0, [R2]``` instruction instead of the ```LDR R0,[R2]``` instruction.
+* Use the ```LDRB R1, [R3]``` instruction instead of the ```LDR R1, [R3]``` instruction.
+
+### If-Else Statement
+If statements can be expanded by an "else" statement. If the condition is false, the program will execute the statements under the "else" statement.
+
+###### Example 1
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+     LDR R2, =G1     ; R2 = &G1             unsigned long G1, G2;
+     LDR R0, [R2]    ; R0 = G1              if (G1 > G2)
+     LDR R2, =G2     ; R2 = &G2             {
+     LDR R1, [R2]    ; R1 = G2                isGreaterH();
+     CMP R0, R1      ; is G1 > G2 ?         } 
+     BHI high        ; if so, skip to high  else
+low  BL  isLessEq    ; G1 <= G2             { 
+     B next          ; unconditional          isLessEq();
+high BL isGreater    ; G1 > G2              }
+next
+```
+
+##### Selection Operator
+The format is:**```Expr1 ? Expr2 : Expr3```**
+
+The first input parameter is an expression, **```Expr1```**, which yields a Boolean (0 for false, not zero for true).
+**```Expr2```** and **```Expr3```** return values that are regular numbers. 
+
+The selection operator will return the result of **```Expr2```** if the value of **```Expr1```** is **true**, and will return the result of **```Expr3```** if the value of **```Expr1```** is **false**. 
+
+### Switch Statements
+Switch statements provide a non-iterative choice between any number of paths based on specified conditions. They compare an expression to a set of constant values. Selected statements are then executed depending on which value, if any, matches the expression.
+* The **break** causes execution to exit the switch statement. 
+* The **default** case is run if none of the explicit case statements match.
+
+### While Loops
+Quite often the microcomputer is asked to wait for events or to search for objects. Both of these operations are solved using the **```while```** or **```do-while```** structure.
+
+The statements inside a while statement, will continuously be executed if the while condition is **true**. If the condition is/becomes **false**, the program will skip the loop and continue with the execution of the remaining statements.
+
+###### Example 1
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+     LDR R4, =GPIO_PORTA_DATA_R             
+loop LDR R0, [R2]     ; R0 = Port A         while (GPIO_PORTA_DATA_R&0x08)
+     ANDS R0, #0x08   ; test  bit 3         {
+     BEQ next         ; if so, quit           Body();
+     BL Body          ; body of the loop    }
+     B Loop        
+next
+```
+
+### Do-While Loop
+The statements inside a do-while statement will always be executed once, and will continuously be executed if the while condition is **true**. If the condition becomes **false**, the program will skip the loop and continue with the execution of the remaining statements. 
+```c
+volatile unsigned long a;
+
+int main () 
+{
+printf("Starting the loop ..., a = %d\n",a);
+do 
+{
+a = (a/10);
+printf("current a = %d\n",a);
+} 
+while (a>0);
+printf("Ending the loop ...\n");
+return 0;
+}
+```
+
+### For Loops
+For loops can iterate up or down. To show the similarity between the while loop and for loop these two C functions are identical. The **```<init>```** code is executed once. The **```<test>```** code returns a true/false and is tested before each iteration. The **```<body>```** and **```<end>```** codes are executed each iteration.
+
+###### Example 1
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+      MOV R4, #0     ; R4 = 0
+loop  CMP R4, #10    ; index >= 10 ?           for(i=0; i<10; i++)
+      BHS done       ; if so, skip to done     {
+      BL  Process    ; Process function          Process();    
+      ADD R4, R4, #1 ; R4 = R4 + 1            }              
+      B loop                                  
+done       
+```
+
+###### Example 2
+| Assembly code | C code |
+|--------------:|-------:|
+```c
+      MOV R4, #10     ; R4 = 0
+loop  BL  Process    ; body               for(i=10; i!=10; i--)
+      SUBS R4, R4, #1 ; R4 = R4 - 1       {      
+      BNE loop                              Process();    
+done                                      }
+```
+A for loop functionality is similar to a while loop, with automatic initialization and update. It is usually used when the number of iterations is known. One variable is used as a counter of iterations. 
+* The **first** field is the **initialization**, which is always executed once. 
+* The **second** field is the **condition** to be **checked**. The loop will continue being executed until the condition becomes false.
+* The **third** field (**update**) is executed at the end of each iteration and is usually used for incrementing/decrementing the counter.
+
+## Functional debugging
+### Control and observability
+**Functional debugging** involves the verification of input/output parameters. Functional debugging is a static process where inputs are supplied, the system is run, and the outputs are compared against the expected results.
+
+There are two important aspects of debugging: **control** and **observability**.
+
+The first step of debugging is to **stabilize** the system. In the debugging context, we stabilize the problem by creating a test routine that fixes (or stabilizes) all the inputs. Stabilization is an effective approach to debugging because we can control exactly what software is being executed. 
+Once stabilized, if we modify the program, we are sure that the change in our outputs is a function of the modification we made in our software and not due to a change in the input parameters.
+To stabilize the system we define a fixed set of inputs to test, run the system on these inputs, and record the outputs. 
+
+**Debugging** is a process of finding patterns in the differences between recorded behavior and expected results. The advantage of modular programming is that we can perform modular debugging.
+
+The **debugger** provides three stepping commands **Step**,  **StepOver** and **StepOut** commands. 
+* **Step** is the usual execute one assembly instruction.
+* **StepOver** will execute one assembly instruction, unless that instruction is a subroutine call, in which case the debugger will execute the entire subroutine and stop at the instruction following the subroutine call.
+* **StepOut** assumes the execution has already entered a subroutine, and will finish execution of the subroutine and stop at the instruction following the subroutine call.
+
+A **breakpoint** is a mechanism to tag places in our software, which when executed will cause the software to stop. Normally, you can break on any line of your program. One of the problems with breakpoints is that sometimes we have to observe many breakpoints before the error occurs. 
+One way to deal with this problem is the **conditional breakpoint**.
+Modern debuggers allow you to set breakpoints that will trigger on a count. However, this method allows flexibility of letting you choose the exact conditions that cause the break.
+
+The use of **print statements** is a popular and effective means for functional debugging. One difficulty with print statements in embedded systems is that a standard “printer” may not be available. 
+Another problem with printing is that most embedded systems involve time-dependent interactions with its external environment. The print statement itself may be so slow, that the debugging process itself causes the system to fail.
+The print statement is intrusive.
