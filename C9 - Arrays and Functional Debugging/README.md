@@ -155,4 +155,59 @@ unsigned long jcount(char str[])
 ```
 
 ## Functional Debugging
-### Testing and Debugging - Intrusiveness
+### Stabilization
+Having **control** over events means we can create and recreate input conditions for our system under test.
+**Observability** means we can select when and what we observe, and do in such a way that the data collection is minimally intrusive.
+
+**Functional debugging** involves the verification of input/output parameters. Functional debugging is a static process where inputs are supplied, the system is run, and the outputs are compared against the expected results.
+
+The first step of debugging is to **stabilize** the system. In the debugging context, we stabilize the problem by creating a test routine that fixes (or stabilizes) all the inputs. In this way, we can reproduce the exact inputs over and over again. Stabilization is an effective approach to debugging because we can control exactly what software is being executed.
+
+To stabilize the system we define a fixed set of inputs to test, run the system on these inputs, and record the outputs. Debugging is a process of finding patterns in the differences between recorded behavior and expected results. The advantage of modular programming is that we can perform modular debugging. We make a list of modules that might be causing the bug.
+
+### Single Stepping, Breakpoint
+The debugger provides three stepping commands **Step**,  **StepOver** and **StepOut** commands. 
+* **Step** is the usual execute one assembly instruction. However, when debugging C we can also execute one line of C. 
+* **StepOver** will execute one assembly instruction, unless that instruction is a subroutine call, in which case the debugger will execute the entire subroutine and stop at the instruction following the subroutine call. 
+* **StepOut** assumes the execution has already entered a subroutine, and will finish execution of the subroutine and stop at the instruction following the subroutine call.
+
+A **breakpoint** is a mechanism to tag places in our software, which when executed will cause the software to stop. Normally, you can break on any line of your program.
+
+### Instrumentation: Print Statements
+The use of **print statements** is a popular and effective means for functional debugging. One difficulty with print statements in embedded systems is that a standard “printer” may not be available. Another problem with printing is that most embedded systems involve time-dependent interactions with its external environment. 
+
+The print statement itself may be so slow, that the debugging process itself causes the system to fail. In this regard, the print statement is usually intrusive. 
+
+There are three limitations of using print statements to debug.
+* Many embedded systems do not have a standard output device onto which we could stream debugging information. 
+* They can significantly slow down the execution speed in real-time systems. The bandwidth of the print functions often cannot keep pace with the real-time execution.
+
+### Instrumentation: Dump into Array with/without Filtering
+Add a debugging instrument that **dumps** strategic information into an array at run time. We can then observe the contents of the array at a later time. 
+
+One problem with dumps is that they can generate a tremendous amount of information. If you suspect a certain situation is causing the error, you can add a filter to the instrument. A **filter** is a software/hardware condition that must be true in order to place data into the array. In this situation, if we suspect the error occurs when another variable gets large, we could add a filter that saves in the array only when the variable is above a certain value.
+
+#### Example
+Instrumenting a dump
+```c++
+#define SIZE 20
+unsigned char HappyBuf[SIZE]; // 8 bit variables
+unsigned char SadBuf[SIZE];
+unsigned long Cnt;
+unsigned long sad;
+
+void Save(void)
+{
+    Cnt = 0;
+    sad = 0;
+    if (sad > 100)
+    {
+        if (Cnt < size) // make sure there is room
+        {
+        HappyBuf[Cnt] = happy; // record happy
+        SadBuf[Cnt] = sad; // record sad
+        Cnt++;
+        }
+    }  
+}
+```
