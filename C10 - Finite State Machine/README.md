@@ -69,4 +69,69 @@ An FSM can be described by five things that capture the behavior of the system w
 
 ### Introduction to structures
 In programming an FSM we will use a "structure" to encapsulate the behaviour corresponding to each state. 
-An array only allows us to store multiple values of the "same" data type, we will need something different than an array.  In C, such a composite store is called a struct, which allows one to combine multiple elements of different data types into one entity. We will also see how users can create new data types with typedef.
+An array only allows us to store multiple values of the **same** data type, we will need something different than an array.  In C, such a composite store is called a struct, which allows one to combine multiple elements of different data types into one entity. We will also see how users can create new data types with **typedef**.
+
+### struct and typedef
+A **structure** has elements with different data types and/or precisions. In C, we use **struct** to define a structure.
+The **const** modifier causes the structure to be allocated in ROM. Without the const, the C compiler will place the structure in RAM, allowing it to be dynamically changed.
+
+```c++
+struct player{
+  unsigned char Xpos;     // first element
+  unsigned char Ypos;     // second element
+  unsigned short Score;   // third element
+};
+typedef struct player playerType;
+```
+We can allocate a variable called Sprite of this type, which will occupy four bytes (one each for Xpos and Ypos and two for score) in RAM, we can access the individual attributes of this variable using the syntax name.element:
+```c++
+playerType Sprite;
+Sprite.Xpos = 10;
+Sprite.Ypos = 20;
+Sprite.Score = 12000;
+```
+
+## Finite State Machines with Indexed structures
+### Designing a FSM
+Software **abstraction** allows us to define a complex problem with a set of basic abstract principles. If we can construct our software system using these abstract building blocks, then we have a better understanding of both the problem and its solution. This is because we can separate what we are doing (policies) from the details of how we are getting it done (mechanisms). This separation also makes it easier to optimize. 
+Abstraction provides  a proof of correct function and simplifies both extensions and customization.
+
+The abstract principles of FSM development are the inputs, outputs, states, and state transitions. The FSM state graph defines the time-dependent relationship between its inputs and outputs. If we can take a complex problem and map it into a FSM model, then we can solve it with simple FSM software tools. Further, our FSM software implementation will be easy to understand, debug, and modify. 
+
+Let's deﬁne what are the essential elements that constitute an FSM. A Finite Statement Machine can be described by these ﬁve essential elements:
+
+1. A ﬁnite set of states that you can ﬁnd the system in. One of these states has to be identiﬁed as the initial state
+2. A ﬁnite set of external inputs to the system
+3. A ﬁnite set of external outputs that the system generates
+4. An explicit speciﬁcation of all state transitions. That is, for every state, what happens (as in, which state will the system transition to) when you are in that state and a speciﬁc input occurs?
+5. An explicit speciﬁcation of how the outputs are determined. That is, when does a speciﬁc output get generated?
+
+A State Transition Graph (**STG**) has nodes and edges.
+* **nodes** relate to the states of the FSM and the edges represent the transitions from one state to another when a particular input is received.
+*  **Edges** are accordingly labeled with the input that caused the transition. 
+
+The output can also be captured in the Graph. Note that a FSM where the output is only dependent on the current state and not the input is called a **Moore FSM**.  FSMs where the output is dependent on both the current state and the input are called **Mealy FSMs**.
+
+The FSM controller employs a well-defined model or framework with which we solve our problem. STG will be specified using either a linked or table data structure. An **important aspect** of this method is to create a 1-1 mapping from the STG into the data structure. 
+The three advantages of this abstraction are: 
+* it can be faster to develop because many of the building blocks preexist;  
+* it is easier to debug (prove correct) because it separates conceptual issues from implementation;
+* it is easier to change. 
+
+The execution of a **Moore FSM** repeats this sequence over and over:
+* Perform output, which depends on the current state
+* Wait a prescribed amount of time (optional state dwell time)
+* Input
+* Go to next state, which depends on the input and the current state
+
+The execution of a **Mealy FSM** repeats this sequence over and over:
+* Wait a prescribed amount of time (optional)
+* Input
+* Perform output, which depends on the input and the current state
+* Go to next state, which depends on the input and the current state 
+
+A **linked structure** consists of multiple identically-structured nodes. Each node of the linked structure defines one state. One or more of the entries in the node is a link to other nodes.
+
+## Stepper motors
+### Simple Stepper motor
+A motor can be evaluated in terms of its maximum speed (**RPM**), its torque (**N-m**), and the efficiency in which it translates electrical power into mechanical power. Sometimes however, we wish to use a motor to control the rotational position (**θ=motor shaft angle**) rather than to control the rotational speed (**ω=dθ/dt**). 
